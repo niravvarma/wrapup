@@ -2,6 +2,7 @@ package org.ammbra.advent;
 
 import org.ammbra.advent.request.Choice;
 import org.ammbra.advent.surprise.decor.Celebration;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
@@ -14,8 +15,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class WrapupITest {
 
@@ -47,8 +47,9 @@ public class WrapupITest {
 		try (HttpClient client = HttpClient.newBuilder().build()) {
 			CompletableFuture<List<HttpResponse<String>>> combinedFutures = toCombinedFuture(requests, client);
 			combinedFutures.get().forEach((response) -> {
-				assertEquals(400, response.statusCode());
+				assertEquals(200, response.statusCode());
 				assertNotNull(response.body());
+				assertTrue(new JSONObject(response.body()).isEmpty());
 			});
 		}
 	}

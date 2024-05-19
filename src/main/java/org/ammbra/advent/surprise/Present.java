@@ -1,7 +1,5 @@
 package org.ammbra.advent.surprise;
 
-import org.json.JSONObject;
-
 import java.util.Currency;
 import java.util.Objects;
 import java.util.Random;
@@ -84,18 +82,5 @@ public record Present(double itemPrice, double boxPrice, Currency currency) impl
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public JSONObject asJSON() {
-
-		return JSON_VALIDATE. """
-				{
-				    "currency": "\{ currency }",
-				    "boxPrice": "\{ boxPrice }",
-				    "packaged" : "\{ boxPrice > 0.0 }",
-				    "cost": "\{ (boxPrice > 0.0) ? itemPrice + boxPrice : itemPrice }"
-				}
-				""" ;
 	}
 }

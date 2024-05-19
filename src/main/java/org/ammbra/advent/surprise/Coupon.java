@@ -32,17 +32,6 @@ public record Coupon(double price, LocalDate expiringOn, Currency currency)
 		}
 	}
 
-	@Override
-	public JSONObject asJSON() {
-		return JSON_VALIDATE. """
-				{
-				    "currency": "\{currency}",
-				    "expiresOn" : "\{ expiringOn}",
-				    "cost": "\{price}"
-				}
-				""" ;
-	}
-
 	public static class CouponScope extends StructuredTaskScope<Coupon> {
 
 		private final Collection<Coupon> coupons = new ConcurrentLinkedQueue<>();

@@ -1,7 +1,6 @@
 package org.ammbra.advent.surprise;
 
 import org.ammbra.advent.request.Choice;
-import org.json.JSONObject;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -25,17 +24,6 @@ public record Experience(double price, Currency currency) implements Intention {
 				.equals(Choice.EXPERIENCE)) {
 			throw new IllegalStateException("Request state is " + VALID_REQUEST.get());
 		}
-	}
-
-	@Override
-	public JSONObject asJSON() {
-
-		return JSON_VALIDATE. """
-				{
-				    "currency": "\{currency}",
-				    "cost": "\{price}"
-				}
-				""" ;
 	}
 
 

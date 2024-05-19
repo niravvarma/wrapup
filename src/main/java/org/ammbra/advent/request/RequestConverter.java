@@ -1,18 +1,15 @@
 package org.ammbra.advent.request;
 
 import org.ammbra.advent.surprise.decor.Celebration;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Gatherers;
 
 public final class RequestConverter {
-	static Logger logger = Logger.getLogger(RequestConverter.class.getName());
 
 	private RequestConverter() {
 	}
@@ -20,15 +17,23 @@ public final class RequestConverter {
 	public static RequestData fromJSON(JSONObject jsonObject) {
 		RequestData.Builder builder = new RequestData.Builder();
 
-		if (jsonObject.keySet().containsAll(Arrays.asList("sender", "receiver", "celebration", "option"))) {
-			for (String key : jsonObject.keySet()) {
-				switch (key) {
-					case "sender" -> builder.sender(jsonObject.optString(key));
-					case "receiver" -> builder.receiver(jsonObject.optString(key));
-					case "celebration" -> builder.celebration(jsonObject.optEnum(Celebration.class, key));
-					case "option" -> builder.choice(jsonObject.optEnum(Choice.class, key, Choice.NONE));
-					case "itemPrice" -> builder.itemPrice(Math.abs(jsonObject.optDouble(key)));
-					case "boxPrice" -> builder.boxPrice(Math.abs(jsonObject.optDouble(key)));
+		List<String> minimalKeys = Arrays.stream(RequestKey.values())
+				.gather(Gatherers.windowFixed(4))
+				.toList().getFirst().stream().map(RequestKey::getKey).toList();
+
+		Set<String> keys = jsonObject.keySet();
+		if (keys.containsAll(minimalKeys)) {
+			for (String key : keys) {
+				Optional<RequestKey> requestKeyByValue = RequestKey.getRequestKeyByValue(key);
+				if (requestKeyByValue.isPresent()) {
+					switch (requestKeyByValue.get()) {
+						case SENDER -> builder.sender(jsonObject.optString(key));
+						case RECEIVER -> builder.receiver(jsonObject.optString(key));
+						case CELEBRATION -> builder.celebration(jsonObject.optEnum(Celebration.class, key));
+						case OPTION -> builder.choice(jsonObject.optEnum(Choice.class, key, Choice.NONE));
+						case ITEM_PRICE -> builder.itemPrice(Math.abs(jsonObject.optDouble(key)));
+						case BOX_PRICE -> builder.boxPrice(Math.abs(jsonObject.optDouble(key)));
+					}
 				}
 			}
 		}
