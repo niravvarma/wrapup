@@ -4,8 +4,6 @@ This application runs with Java 22.
 To start the application use the following command:
 
 ```shell
-mvn clean verify
-
 export PATH_TO_JSON=${HOME}/.m2/repository/org/json/json/20231013
         
 java --enable-preview --source 22 -classpath $PATH_TO_JSON/json-20231013.jar src/main/java/org/ammbra/advent/Wrapup.java 

@@ -1,7 +1,6 @@
 package org.ammbra.advent.surprise;
 
 import org.ammbra.advent.request.Choice;
-import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
