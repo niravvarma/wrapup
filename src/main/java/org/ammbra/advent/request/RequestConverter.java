@@ -11,6 +11,11 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This is a simple utility class, and thus, it is not a record.
+ * Because there are 2 static methods, private constructor and final class.
+ * But, a record class has a public canonical constructor and cannot be a utility class.
+ */
 public final class RequestConverter {
 	static Logger logger = Logger.getLogger(RequestConverter.class.getName());
 
